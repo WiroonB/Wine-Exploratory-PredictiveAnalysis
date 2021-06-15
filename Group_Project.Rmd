@@ -103,6 +103,7 @@ group_data_2 =group_data %>% mutate(quality_level = case_when(
 group_data_2 %>% group_by(quality_level, Red_or_White) %>%  count() %>% arrange(desc(quality_level))
 ```
 
+
 Based on the histogram and breakout of qualities (red vs white wine) we can determine the following:
 
  - Based on the histogram, we determined quality can be viewed in categorical format (high, medium, low)
