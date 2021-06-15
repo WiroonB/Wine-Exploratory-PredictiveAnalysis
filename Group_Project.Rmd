@@ -1,0 +1,172 @@
+---
+title: "Group_Project"
+author: "Pacers Worldwide - Ana, Jeffrey, Sneha, Wiroon"
+date: "11/24/2019"
+output: html_document
+---
+
+```{r}
+require(tidyverse)
+require(dplyr)
+require(lattice)
+require(ggplot)
+require('leaps')
+
+red_data = read_csv('winequality_red.csv')
+white_data = read_csv('winequality_white.csv')
+group_data = read_csv('winequality_redandwhite.csv')
+```
+
+Introduction
+
+Brief description about the topic and the project. 
+-	How does your project help those who are interested in this topic?
+  We are working with a dataset of more than 6000 different wines, including both red and white wines. For those interested in wine and particularly wine consumption, our project will help wine aficionados make informed decisions when choosing wine and help understand factors that help explain qualitative wine levels. By converting the numerical qualitative field to categorical we can than make distinctions between higher and lower quality wines as well as see variances between red and white based on quality.
+
+-	Why data analysis is needed for this? 
+  Data analysis is needed for this for many reasons. There are many different kinds of wine and even for people knowledgeable in this topic they can get overwhelmed when going into a store and picking a wine for a particular occasion. With data analysis we can compare similarities and differences and categorize wine. With so many options out there getting precise calculations provides individuals with the information needed to make the best decisions for their wine purchases. For example if an individual has had a bad day and just wants to drink their sorrows away, a lower quality wine of lower price may do the job for them while when trying to impress a spouse who loves wine and on a special occasion may call for a higher quality wine. The information provided from this analysis will hopefully provide some additional insight to the best decisions for wine selection.
+  
+-	How do you expect your analysis to improve decision making in this area?
+  The analysis and predictions could help wine aficionados make more informed wine purchases that is more tailored to their preferences. For example, one may prefer red wine, but they would also want it to have a low sugar content. This analysis could help individuals choose a red wine with lower sugar content. Similarly, the analysis could also help restaurant owners distinguish the different types of red and white wine and mark their prices accordingly. For example, the analysis could find correlations between white wines with high PH levels tend to have higher quality, therefore, the price for that wine should be higher.
+
+Describe your data; 
+-	What is the source? 
+  This dataset was found in data.world (https://data.world/food/wine-quality). The source provided the data for white and red wine in 2x seperate data sources. We had to concatenate the sources together and add a qualitative field to determine red and white wines from each set. The adjusted CSV file is included with this report where all analysis was performed.
+  
+-	What are your variables? If there are too many, focus on the ones that you will explore
+  Fixed acidity:  A measurement of the quantity of acid in a wine. It determines how a wine will taste, feel, and how well it will age. (“Understanding Wine Acidity.”)
+  Volatile acidity: A measure of the wine’s gaseous acids. These acids are responsible for how the wine smells. (Penn State Extension)
+  Citric acid: “Citric acid specifically makes a wine taste fresh and is best used in balancing a malic dominant fruit base.” (WineFrog)
+  Residual sugar: Sugar from the grapes after the alcoholic fermentation process finishes. (https://www.facebook.com/WineFolly)
+  Chlorides: The measure of salts in the wine. (Coli et al.)
+  Free sulfur dioxide: It is also known as Sulphites that affect the wine’s odour. The more free sulfur dioxide, the more pungent odour in the wine. This free sulfur dioxide is a part of sulfur dioxide which is said to be free when added into the wine after its remaining part binds.(Cortez et al, 2009)
+  Total sulfur dioxide: It is the sum total of the bound and free sulfur dioxide. It is generally added in the wine by winemakers to kill harmful bacteria and keep the wine fresh and thus maintain its quality.However an excessive amount of this in wine causes killing of the good yeast. (Cortez et al., 2009)
+  Density: It is mass per weight or volume of the wine. Mass/Volume
+  pH: Measurement of the strengths of the acids.  (“Understanding Wine Acidity.”)
+  Sulphates: Mineral salt containing sulfur. Its content affects the wine aroma and flavor.(Cortez et al., 2009)
+  Alcohol: Formed due to the conversion of yeast into sugar during the fermentation process.The more the alcohol content in the wine, the more bolder and oily it is in taste. (Cortez et al., 2009)
+Quality - a integer based range that determines quality based on other factors (assuming most are included in this dataset but may have additional outliers)
+
+-	Describe the data cleaning process if you needed
+  There was some small cleaning of the dataset. Two new columns were added: “Red_or_White” and categorical column for quality. The data for the red and white wine were on two seperate files, we merged those two files into one. To identify which attributes belonged to red wine and which attributes belonged to white wine, the “Red_or_White” column was added. The categorical quality column was added to better gauge the quality of the wine, the quality can now be classified as “low”, “medium”, or “high.”
+
+1. What is the distribution of wine in the data set? Red vs White & Quality?
+```{r}
+group_data
+hist(group_data$quality)
+quantile(group_data$quality)
+mean(group_data$quality)
+median(group_data$quality)
+group_data %>% group_by(Red_or_White, quality) %>%  count() %>% arrange(desc(quality))
+group_data_2 =group_data %>% mutate(quality_level = case_when(
+  quality <= 4 ~ 'low',
+  quality > 4 & quality < 8  ~ 'medium',
+  quality >= 8 ~ 'high'
+))
+group_data_2 %>% group_by(quality_level, Red_or_White) %>%  count() %>% arrange(desc(quality_level))
+```
+
+Based on the histogram and breakout of qualities (red vs white wine) we can determine the following:
+ - Based on the histogram, we determined quality can be viewed in categorical format (high, medium, low)
+ - Based on distribution of histogram, levels are determined based on <5 = low quality, >7 high quality, else = medium quality.
+ - We understand that high quality and low quality are a dramatically lower frequency than medium quality, we are hoping that the samples sets of low and high quality wine can help determine unique factors that differentiate between high and low quality.
+ - Second graph shows distribution by quality by red or white wine counts.
+ - Thirs graph shows the categorical distribution based on our quality_level dimension.
+ - From here we will work to determine unique variance between high & low quality.
+
+2. What variables determine quality of wine?
+```{r}
+lps=regsubsets(quality~., data = group_data_2)
+plot(lps, scale='adjr2')
+```
+
+Based on this the strongest variables to determine overall wine quality are:
+ - Volatile Acidity
+ - Residual Sugar
+ - Free sulphur dioxide & total sulphur dioxide
+ - Sulphates
+ - Alcohol
+
+3. Are there differences between white and red wine that are more informative where variables can determine white or red?
+```{r}
+group_data_2_White = group_data_2 %>% filter(Red_or_White == 'White')
+group_data_2_Red = group_data_2 %>% filter(Red_or_White == 'Red')
+
+
+lps_white=regsubsets(quality~., data = white_data)
+plot(lps_white, scale='adjr2')
+
+lps_red=regsubsets(quality~., data = red_data)
+plot(lps_red, scale='adjr2')
+```
+The quality of Red wines can be defined with the following variables:
+ - Volatile acidity
+ - Citric acid
+ - Chlorides
+ - Free & Total sulfur dioxide
+ - PH
+ - Sulphates
+ - Alcohol
+
+The quality of White wines can be defined with the following variables:
+ - Fixed acidity
+ - Volatile acidity
+ - Residual Sugar
+ - Free sulfur dioxide
+ - Density
+ - PH
+ - Sulphates
+ - Alcohol
+ 
+4. Based on question 2 & 3, volatile acidity and alcohol are the strongest variables that determine quality of wine. What is the relationship between volatile acidity and alcohol in wine?
+
+```{r}
+xyplot(`volatile acidity` ~ alcohol, group_data_2)
+
+my_model = lm(`volatile acidity`~ alcohol, data = group_data_2)
+summary(my_model)
+```
+Scatter plot and linear model summary show that there is no relationship between volatile acidity and alcohol. Based on the linear model, an unit increase in alcohol adjust volatile acidity by such a small margin, it does not show a relevant correlation between the two.
+
+
+5. After finding no significant relationship between volatile acidity and alcohol, can we find that there is a stronger relationship between alcohol & quality?
+
+```{r}
+xyplot(quality ~ alcohol, group_data_2)
+my_model2 = lm(quality ~ alcohol, data = group_data_2)
+summary(my_model2)
+```
+WHile there isn't a very strong relationship, we can say it is a stronger relationship and for every unit increase in alcohol, we can expect an increase in the quality by .32 per unit of alcohol.
+
+
+Summary of findings & prediction method:
+ - Based on findings, we see that using multiple variables is the only way to determine quality and distinction between red and white wines. While trying to find strong relationships between specific variables, there was no strong unique identifying variable. For our predicitve model it will be important to use the variables.
+ - Our prediction method is based on finding the following variables will best predict quality of wine:
+  - Volatile Acidity
+ - Residual Sugar
+ - Free sulphur dioxide & total sulphur dioxide
+ - Sulphates
+ - Alcohol
+ 
+ - Our prediction method is there will be distinguished differences between high vs low quality wines of the same type (red or white).
+ 
+
+ 
+ 
+Works Cited
+
+P. Cortez, A. Cerdeira, F. Almeida, T. Matos and J. Reis.
+Modeling wine preferences by data mining from physicochemical properties.
+In Decision Support Systems, Elsevier, 47(4):547-553. ISSN: 0167-9236.
+
+
+Admin. “Understanding Wine Acidity.” Winemaker's Academy, 25 June 2018, http://winemakersacademy.com/understanding-wine-acidity/.
+
+WineFrog. “Citric Acid.” WineFrog.Com, WineFrog, 21 Oct. 2015, www.winefrog.com/definition/243/citric-acid.
+
+https://www.facebook.com/WineFolly. “What Is Residual Sugar in Wine? | Wine Folly.” Wine Folly, 18 Mar. 2019, winefolly.com/review/what-is-residual-sugar-in-wine/.
+
+Penn State Extension. “Volatile Acidity in Wine.” Penn State Extension, 23 May 2019, extension.psu.edu/volatile-acidity-in-wine.
+
+Coli, Marina Sonegheti, et al. “Chloride Concentration in Red Wines: Influence of Terroir and Grape Type.” Food Science and Technology (Campinas), vol. 35, no. 1, Mar. 2015, pp. 95–99, doi:10.1590/1678-457x.6493.
+(Cortez et al., 2009) https://www.kaggle.com/mgmarques/wines-type-and-quality-classification-exercises/data
