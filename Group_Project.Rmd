@@ -2,8 +2,13 @@
 title: "Group_Project"
 author: "Pacers Worldwide - Ana, Jeffrey, Sneha, Wiroon"
 date: "11/24/2019"
-output: html_document:keep_md: true
+output: html_document
 ---
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  fig.path = "README_figs/README-"
+)
+```
 
 ```{r}
 require(tidyverse)
