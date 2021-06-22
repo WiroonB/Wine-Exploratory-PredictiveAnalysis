@@ -2,7 +2,7 @@
 title: "Group_Project"
 author: "Pacers Worldwide - Ana, Jeffrey, Sneha, Wiroon"
 date: "11/24/2019"
-output: html_document
+output: rmarkdown::github_document
 ---
 
 
