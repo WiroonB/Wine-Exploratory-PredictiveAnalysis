@@ -6,7 +6,7 @@ output: rmarkdown::github_document
 ---
 
 ```{r, echo = FALSE}
-knitr::opts_chunk$set(collapse=TRUE, comment="##", fig.retina=2, fig.path = "Group_Project/Group_Project-")
+knitr::opts_chunk$set(collapse=TRUE, comment="##", fig.retina=2, fig.path = "Group_Project_figs/Group_Project-")
 ```
 
 ```{r}
