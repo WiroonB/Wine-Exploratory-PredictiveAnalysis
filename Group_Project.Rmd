@@ -4,9 +4,9 @@ author: "Pacers Worldwide - Ana, Jeffrey, Sneha, Wiroon"
 date: "11/24/2019"
 output: rmarkdown::github_document
 ---
----
+```{r, echo = FALSE}
 knit(input="readme.rmd", output = "readme.md") #see ?knit for more options
----
+```
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(collapse=TRUE, comment="##", fig.retina=2, fig.path = "Group_Project_figs/Group_Project-")
 ```
