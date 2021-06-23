@@ -23,10 +23,12 @@ We are working with a dataset of more than 6000 different wines, including both 
   - After finding no significant relationship between volatile acidity and alcohol, can we find that there is a stronger relationship between alcohol & quality?
 
 
-| | | |
+
+
+|<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/WiroonB/Wine-Exploratory-PredictiveAnalysis-R/blob/main/Group_Project_files/figure-gfm/unnamed-chunk-2-1.png?raw=true"> | <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/WiroonB/Wine-Exploratory-PredictiveAnalysis-R/blob/main/Group_Project_files/figure-gfm/unnamed-chunk-3-1.png?raw=true"> | <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/WiroonB/Wine-Exploratory-PredictiveAnalysis-R/blob/main/Group_Project_files/figure-gfm/unnamed-chunk-4-1.png?raw=true"> |
 |:-------------------------:|:-------------------------:|:-------------------------:|
-|<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/WiroonB/Wine-Exploratory-PredictiveAnalysis-R/blob/main/Group_Project_files/figure-gfm/unnamed-chunk-2-1.png?raw=true"> Win Distribution | <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/WiroonB/Wine-Exploratory-PredictiveAnalysis-R/blob/main/Group_Project_files/figure-gfm/unnamed-chunk-3-1.png?raw=true"> Win Variables  | <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/WiroonB/Wine-Exploratory-PredictiveAnalysis-R/blob/main/Group_Project_files/figure-gfm/unnamed-chunk-4-1.png?raw=true"> Wine Variables |
-|<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/WiroonB/Wine-Exploratory-PredictiveAnalysis-R/blob/main/Group_Project_files/figure-gfm/unnamed-chunk-4-2.png?raw=true"> Wine Varibles  |  <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/WiroonB/Wine-Exploratory-PredictiveAnalysis-R/blob/main/Group_Project_files/figure-gfm/unnamed-chunk-5-1.png?raw=true"> Volatile Acidity and Alcohol | <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/WiroonB/Wine-Exploratory-PredictiveAnalysis-R/blob/main/Group_Project_files/figure-gfm/unnamed-chunk-6-1.png?raw=true"> Quality and Alcohol|
+|<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/WiroonB/Wine-Exploratory-PredictiveAnalysis-R/blob/main/Group_Project_files/figure-gfm/unnamed-chunk-4-2.png?raw=true"> |  <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/WiroonB/Wine-Exploratory-PredictiveAnalysis-R/blob/main/Group_Project_files/figure-gfm/unnamed-chunk-5-1.png?raw=true"> | <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/WiroonB/Wine-Exploratory-PredictiveAnalysis-R/blob/main/Group_Project_files/figure-gfm/unnamed-chunk-6-1.png?raw=true"> |
+
 
 **Summary of Findings & Prediction Method**
 
